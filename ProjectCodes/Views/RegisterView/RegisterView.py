@@ -1,7 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QHBoxLayout, QApplication
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtCore import Qt, QSize
-from Views.AuthView import AuthView  # AuthView'u doğrudan buraya import et
 from Views.Widget.ButtonWithText import ButtonWithText
 
 class RegisterView(QWidget):
@@ -11,8 +10,8 @@ class RegisterView(QWidget):
 
     def init_ui(self):
         # Pencere başlığı ve boyutu
-        self.setWindowTitle("Kayıt Ol")
-        self.setGeometry(100, 100, 400, 300)
+        screen_geometry = QApplication.primaryScreen().geometry()
+        self.setGeometry(screen_geometry)
         self.setStyleSheet("background-color: #0B192C;")  # Arka plan rengi
 
         # Ana dikey düzen
@@ -80,6 +79,7 @@ class RegisterView(QWidget):
         self.setLayout(layout)
 
     def go_back(self):
+        from Views.AuthView.AuthView import AuthView  
         self.auth_view = AuthView()  # AuthView nesnesi oluşturuluyor ve gösteriliyor
         self.auth_view.show()
         self.close()

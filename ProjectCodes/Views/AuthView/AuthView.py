@@ -1,8 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel,QApplication
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
-from Views.LoginView.LoginView import LoginView  # Giriş sayfasını import et
-from Views.RegisterView.RegisterView import RegisterView  # Kayıt sayfasını import et
+from Views.LoginView.LoginView import LoginView  
+from Views.RegisterView.RegisterView import RegisterView  
 from Views.Widget.ButtonWithText import ButtonWithText
 
 class AuthView(QWidget):
@@ -24,8 +24,8 @@ class AuthView(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle("İtiraf Kutusu")
-        self.setGeometry(100, 100, 400, 300)
+        screen_geometry = QApplication.primaryScreen().geometry()
+        self.setGeometry(screen_geometry)
         self.setStyleSheet("background-color: #0B192C;")  
 
         layout = QVBoxLayout()

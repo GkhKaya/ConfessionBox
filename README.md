@@ -9,7 +9,7 @@ It is a project on visual programming lecture.
 |-----------------|-----------------|-----------------|
 | id             | id             | id             |
 | fullname       | user_id        | text           |
-| email          | category_id    | text           |
+| email          | category_id    |                |
 | created_date   | text           |                |
 | gender         | created_date   |                |
 

@@ -11,3 +11,12 @@ class DatabaseError(Enum):
 
     def __str__(self):
         return self.value
+    
+class ValidateError(Enum):
+    LEAST_EIGHT_CHATACTER = "Password must be least 8 character."
+    MUST_CONTAIN_NUMBER = "Password must contain at least one number."
+    MUST_CONTAIN_LOWERCASE = "Password must contain at least one lowercase letter."
+    MUST_CONTAIN_UPPERCASE = "Password must contain at least one uppercase letter."
+    MUST_CONTAIN_SPECIAL_CHAR = "Password must contain at least one special character."
+    EMPTY_FIELD = "There is not can be empty field."
+   

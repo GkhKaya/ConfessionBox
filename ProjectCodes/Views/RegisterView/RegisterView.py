@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtCore import Qt, QSize
-from ViewModel.RegisterViewModel import RegisterViewModel
+from Views.RegisterView.RegisterViewModel import RegisterViewModel
 from Views.Widget.ButtonWithText import ButtonWithText
 
 

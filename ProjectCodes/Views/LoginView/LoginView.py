@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QHBoxLayout, QApplication
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QHBoxLayout, QApplication,QMessageBox
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtCore import Qt, QSize
 from Views.Widget.ButtonWithText import ButtonWithText
+from Views.LoginView.LoginViewModel import LoginViewModel
 
 class LoginView(QWidget):
     def __init__(self):
@@ -36,16 +37,16 @@ class LoginView(QWidget):
         title_label.setAlignment(Qt.AlignCenter)
 
         # E-Posta ve Şifre alanları
-        email_label = QLabel("E-Posta")
-        password_label = QLabel("Şifre")
+        username_label = QLabel("Username")
+        password_label = QLabel("Password")
 
-        self.email_input = QLineEdit()
+        self.username_input = QLineEdit()
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.Password)  # Şifreyi gizle
 
         # Buton oluşturma ve stil atama
         login_button = ButtonWithText(
-            text="Giriş Yap",
+            text="Login",
             style="""
                 QPushButton {
                     background-color: #FF8C00;
@@ -65,8 +66,8 @@ class LoginView(QWidget):
         # Öğeleri ana düzene ekleme
         layout.addLayout(back_button_layout)  # Geri butonu ekle
         layout.addWidget(title_label)
-        layout.addWidget(email_label)
-        layout.addWidget(self.email_input)
+        layout.addWidget(username_label)
+        layout.addWidget(self.username_input)
         layout.addWidget(password_label)
         layout.addWidget(self.password_input)
         layout.addWidget(login_button)
@@ -80,5 +81,16 @@ class LoginView(QWidget):
         self.close()
 
     def login_procress(self):
-        
-        pass
+        username = self.username_input.text()
+        password = self.password_input.text()
+
+        # LoginViewModel sınıfından bir örnek oluştur
+        viewModel = LoginViewModel()
+
+        # Metodu örnek üzerinden çağır
+        result = viewModel.login_user(username=username, password=password)
+
+        if result["success"]:
+            QMessageBox.information(self, "Success", result["message"])
+        else:
+            QMessageBox.warning(self, "Error", result["error"])

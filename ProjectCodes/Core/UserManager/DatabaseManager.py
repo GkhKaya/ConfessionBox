@@ -23,13 +23,13 @@ class DatabaseManager():
     
      def insert_one(self, collection_name: str, data: T) -> str:
         collection = self.db[collection_name]
-        result = collection.insert_one(data.dict())
+        result = collection.insert_one(data.model_dump())
         return str(result.inserted_id)
      
      def insert_many(self, collection_name: str, data_list: List[T]) -> List[str]:
        
         collection = self.db[collection_name]
-        result = collection.insert_many([data.dict() for data in data_list])
+        result = collection.insert_many([data.model_dump() for data in data_list])
         return [str(id) for id in result.inserted_ids]
 
      def update_one(self, collection_name: str, query: Dict[str, Any], update_data: Dict[str, Any]) -> int:

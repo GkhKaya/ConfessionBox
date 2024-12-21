@@ -1,14 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QStackedWidget
 from PyQt5.QtCore import Qt
-
-class ConfessionsView(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        self.setStyleSheet("background-color: #2C2C2C;")
-        # Add content to the Confessions view here
+from Views.OpenConfessionView.OpenConfessionView import OpenConfessionView
 
 class CloseConfessionsView(QWidget):
     def __init__(self):
@@ -28,7 +20,7 @@ class ProfileView(QWidget):
         self.setStyleSheet("background-color: #4C4C4C;")
         # Add content to the Profile view here
 
-class MainWindow(QWidget):
+class HomeView(QWidget):
     def __init__(self):
         super().__init__()
         self.init_ui()
@@ -62,7 +54,7 @@ class MainWindow(QWidget):
 
         # Stacked Widget for content views
         self.stacked_widget = QStackedWidget(self)
-        self.confessions_view = ConfessionsView()
+        self.confessions_view = OpenConfessionView()
         self.close_confessions_view = CloseConfessionsView()
         self.profile_view = ProfileView()
 
@@ -124,6 +116,6 @@ class MainWindow(QWidget):
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    window = MainWindow()
+    window = HomeView()
     window.show()
     sys.exit(app.exec_())

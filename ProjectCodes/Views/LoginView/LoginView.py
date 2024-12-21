@@ -92,5 +92,13 @@ class LoginView(QWidget):
 
         if result["success"]:
             QMessageBox.information(self, "Success", result["message"])
+
+            # HomeView'i aç
+            from Views.HomeView.HomeView import HomeView
+            self.home_view = HomeView()
+            self.home_view.show()
+
+            # LoginView'i kapat
+            self.close()
         else:
             QMessageBox.warning(self, "Error", result["error"])

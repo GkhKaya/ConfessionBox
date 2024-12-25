@@ -11,9 +11,10 @@ class ConfessionModel:
         text (str): The content of the confession.
         is_open (bool): A flag indicating whether the confession is open or private.
         created_at (datetime): The timestamp when the confession was created.
+        author_name (str): The name of the user who made the confession.
     """
 
-    def __init__(self, user_id: str, category_id: str, text: str, is_open: bool, created_at: datetime):
+    def __init__(self, user_id: str, category_id: str, text: str, is_open: bool, created_at: datetime, author_name: Optional[str] = "Unknown"):
         """
         Initializes the ConfessionModel with the provided attributes.
 
@@ -23,12 +24,14 @@ class ConfessionModel:
             text (str): The content of the confession.
             is_open (bool): A flag indicating whether the confession is open or private.
             created_at (datetime): The timestamp when the confession was created.
+            author_name (str): The name of the user who made the confession.
         """
         self.user_id = user_id
         self.category_id = category_id
         self.text = text
         self.is_open = is_open
         self.created_at = created_at
+        self.author_name = author_name
 
     @staticmethod
     def from_dict(doc: dict):
@@ -41,21 +44,22 @@ class ConfessionModel:
         Returns:
             ConfessionModel: A ConfessionModel instance.
         """
-        # MongoDB'den gelen verilerdeki '_id' alanını atlıyoruz.
-        user_id = str(doc.get("user_id"))  # user_id
-        category_id = str(doc.get("category_id"))  # category_id
+        user_id = str(doc.get("user_id"))
+        category_id = str(doc.get("category_id"))
         text = doc.get("text")
         is_open = doc.get("is_open", False)
         
-        # MongoDB tarih formatını datetime'a dönüştürüyoruz
         created_at = doc.get("created_at")
         if isinstance(created_at, str):
-            created_at = datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%S.%fZ")  # ISO format
+            created_at = datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%S.%fZ")
         elif isinstance(created_at, dict) and "$date" in created_at:
             created_at = created_at["$date"]
             created_at = datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%S.%fZ")
-
-        return ConfessionModel(user_id, category_id, text, is_open, created_at)
+        
+        # `author_name`'i ekliyoruz
+        author_name = doc.get('author_name', 'Unknown')
+        
+        return ConfessionModel(user_id, category_id, text, is_open, created_at, author_name)
 
     def to_dict(self):
         """
@@ -69,5 +73,6 @@ class ConfessionModel:
             "category_id": self.category_id,
             "text": self.text,
             "is_open": self.is_open,
-            "created_at": self.created_at.isoformat() if self.created_at else None
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "author_name": self.author_name
         }

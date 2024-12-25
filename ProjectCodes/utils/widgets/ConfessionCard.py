@@ -1,11 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSpacerItem, QSizePolicy
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QFont
 from datetime import datetime
 
 class LoremIpsumCard(QWidget):
-    def __init__(self, text: str, date: str):
+    def __init__(self, text: str, date: str, author: str = None):
         super().__init__()
         self.setAttribute(Qt.WA_StyledBackground, True)
         
@@ -14,9 +14,9 @@ class LoremIpsumCard(QWidget):
         except ValueError:
             formatted_date = date
             
-        self.init_ui(text, formatted_date)
+        self.init_ui(text, formatted_date, author)
         
-    def init_ui(self, text: str, date: str):
+    def init_ui(self, text: str, date: str, author: str):
         layout = QVBoxLayout()
         layout.setSpacing(12)
         layout.setContentsMargins(20, 20, 20, 20)
@@ -26,13 +26,24 @@ class LoremIpsumCard(QWidget):
         text_label.setFont(QFont("Segoe UI", 13))
         text_label.setStyleSheet("color: #2C3E50;")
         
+        bottom_layout = QHBoxLayout()
+        
+        if author:
+            author_label = QLabel(author)
+            author_label.setFont(QFont("Segoe UI", 11))
+            author_label.setStyleSheet("color: #7F8C8D;")
+            bottom_layout.addWidget(author_label)
+        
+        horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        bottom_layout.addItem(horizontal_spacer)
+        
         date_label = QLabel(date)
-        date_label.setAlignment(Qt.AlignRight)
         date_label.setFont(QFont("Segoe UI", 11))
         date_label.setStyleSheet("color: #7F8C8D;")
+        bottom_layout.addWidget(date_label)
         
         layout.addWidget(text_label)
-        layout.addWidget(date_label)
+        layout.addLayout(bottom_layout)
         
         self.setLayout(layout)
         self.setStyleSheet("""
@@ -55,6 +66,6 @@ class LoremIpsumCard(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    card = LoremIpsumCard("Test confession text", "2024-01-01")
+    card = LoremIpsumCard("Test confession text", "2024-01-01", "John Doe")
     card.show()
     sys.exit(app.exec_())

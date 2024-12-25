@@ -1,74 +1,60 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
-from PyQt5.QtGui import QFont, QPixmap
-from PyQt5.QtCore import Qt
-import os
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout
+from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QFont
+from datetime import datetime
 
-
-class CardWidget(QWidget):
-    def __init__(self, text: str, date: str, author: str = None, parent=None):
-        super().__init__(parent)
-        self.text = text
-        self.author = author
-        self.date = date
-        self.init_ui()
-
-    def init_ui(self):
-        self.setStyleSheet("background-color: #D3D3D3; border-radius: 10px;")
-        self.setFixedSize(500, 200)
-
-        main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(20, 20, 20, 20)
-
-        text_label = QLabel(self.text, self)
+class LoremIpsumCard(QWidget):
+    def __init__(self, text: str, date: str):
+        super().__init__()
+        self.setAttribute(Qt.WA_StyledBackground, True)
+        
+        try:
+            formatted_date = datetime.fromisoformat(date).strftime('%d.%m.%Y %H:%M')
+        except ValueError:
+            formatted_date = date
+            
+        self.init_ui(text, formatted_date)
+        
+    def init_ui(self, text: str, date: str):
+        layout = QVBoxLayout()
+        layout.setSpacing(12)
+        layout.setContentsMargins(20, 20, 20, 20)
+        
+        text_label = QLabel(text)
         text_label.setWordWrap(True)
-        text_label.setStyleSheet("color: #0B192C;")
-        text_label.setFont(QFont("Arial", 12))
-        text_label.setAlignment(Qt.AlignTop)
+        text_label.setFont(QFont("Segoe UI", 13))
+        text_label.setStyleSheet("color: #2C3E50;")
+        
+        date_label = QLabel(date)
+        date_label.setAlignment(Qt.AlignRight)
+        date_label.setFont(QFont("Segoe UI", 11))
+        date_label.setStyleSheet("color: #7F8C8D;")
+        
+        layout.addWidget(text_label)
+        layout.addWidget(date_label)
+        
+        self.setLayout(layout)
+        self.setStyleSheet("""
+            LoremIpsumCard {
+                background-color: white;
+                border-radius: 12px;
+                border: 1px solid #E0E0E0;
+            }
+            LoremIpsumCard:hover {
+                border: 1px solid #BDBDBD;
+                background-color: #FAFAFA;
+            }
+        """)
+        
+    def sizeHint(self):
+        return self.minimumSizeHint()
 
-        bottom_layout = QHBoxLayout()
-        bottom_layout.setContentsMargins(0, 10, 0, 0)
+    def minimumSizeHint(self):
+        return QSize(0, 120)
 
-        if self.author:
-            author_layout = QHBoxLayout()
-
-            icon_path = os.path.join("assets", "person.fill.png")
-            icon_label = QLabel(self)
-            icon_label.setFixedSize(20, 20)
-            icon_label.setPixmap(
-                QPixmap(icon_path).scaled(
-                    20, 20, Qt.KeepAspectRatio, Qt.SmoothTransformation
-                )
-            )
-
-            author_label = QLabel(self.author, self)
-            author_label.setStyleSheet("color: #0B192C;")
-            author_label.setFont(QFont("Arial", 10))
-            author_layout.addWidget(icon_label)
-            author_layout.addWidget(author_label)
-            bottom_layout.addLayout(author_layout)
-
-        bottom_layout.addStretch()
-
-        date_label = QLabel(self.date, self)
-        date_label.setStyleSheet("color: #0B192C;")
-        date_label.setFont(QFont("Arial", 10))
-        bottom_layout.addWidget(date_label)
-
-        main_layout.addWidget(text_label)
-        main_layout.addLayout(bottom_layout)
-
-
-if __name__ == "__main__":
-    import sys
-    from PyQt5.QtWidgets import QApplication
-
+if __name__ == '__main__':
     app = QApplication(sys.argv)
-
-    text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
-    author = "Gokhan Kaya"
-    date = "12.12.2022"
-
-    card = CardWidget(text, date, author)
+    card = LoremIpsumCard("Test confession text", "2024-01-01")
     card.show()
-
     sys.exit(app.exec_())

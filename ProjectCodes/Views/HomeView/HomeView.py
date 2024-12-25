@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QStackedWidget, QDialog, QLineEdit, QLabel, QFormLayout
 from PyQt5.QtCore import Qt
 from Views.AddConfessionDialog.AddConfessionDialog import AddConfessionDialog
+from Views.PrivateConfessionView.PrivateConfessionView import PrivateConfessionView
 
 class CloseConfessionsView(QWidget):
     def __init__(self):
@@ -92,7 +93,7 @@ class HomeView(QWidget):
         # Stacked Widget for content views
         self.stacked_widget = QStackedWidget(self)
         self.confessions_view = OpenConfessionsView()
-        self.close_confessions_view = CloseConfessionsView()
+        self.close_confessions_view = PrivateConfessionView()
         self.profile_view = ProfileView()
 
         self.stacked_widget.addWidget(self.confessions_view)  # Initial view

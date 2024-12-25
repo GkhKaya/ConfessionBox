@@ -8,7 +8,7 @@ class DatabaseManager:
     DatabaseManager handles CRUD operations for MongoDB collections.
     """
 
-    def __init__(self, db_url="mongodb://localhost:27017/", db_name="confessionsdb"):
+    def __init__(self, db_url="mongodb://localhost:27017/", db_name="confessiondb"):
         """
         Initializes the DatabaseManager and establishes a connection to the MongoDB database.
 

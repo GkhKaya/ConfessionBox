@@ -2,6 +2,8 @@ import pymongo
 from Model.UserModel import UserModel
 from utils.enum.ProjectError import DatabaseError
 import bcrypt
+import json
+from PyQt5.QtCore import QSettings
 
 class UserManager:
     def __init__(self, db_url="mongodb://localhost:27017/", db_name="confessiondb"):
@@ -10,6 +12,7 @@ class UserManager:
             self.db = self.client[db_name]
             self.users_collection = self.db["users"]
             self.logged_in_user = None
+            self.settings = QSettings("YourCompany", "YourApp")  # Bellek yönetimi için QSettings kullanıyoruz
         except Exception:
             raise Exception(str(DatabaseError.CONNECTION_FAILED))
 
@@ -55,22 +58,43 @@ class UserManager:
 
             if bcrypt.checkpw(password, user['password']):
                 self.logged_in_user = user
+                self.save_user_to_memory(user)  # Kullanıcıyı bellek ile kaydediyoruz
                 return {"success": True, "message": "Login is completed!"}
             else:
                 return {"success": False, "error": str(DatabaseError.INCORRECT_PASSWORD)}
         except Exception:
             return {"success": False, "error": str(DatabaseError.QUERY_FAILED)}
 
+    def save_user_to_memory(self, user):
+        # Kullanıcı bilgilerini JSON formatında saklıyoruz
+        user_data = {
+            "user_id": str(user["_id"]),
+            "username": user["username"],
+            "email": user.get("email"),
+            "full_name": user.get("full_name"),
+            "gender": user.get("gender")
+        }
+        # Kullanıcıyı belleğe kaydediyoruz
+        self.settings.setValue("user", json.dumps(user_data))
+
+    def get_user_from_memory(self):
+        # Kullanıcı bilgilerini bellekten alıyoruz
+        user_data = self.settings.value("user")
+        if user_data:
+            return json.loads(user_data)
+        return None
+
     def current_user(self):
-        if self.logged_in_user:
+        # Bellekten kullanıcı bilgilerini alıyoruz
+        user = self.get_user_from_memory()
+        if user:
             return {
                 "success": True,
-                "user": {
-                    "username": self.logged_in_user["username"],
-                    "email": self.logged_in_user.get("email"),
-                    "full_name": self.logged_in_user.get("full_name"),
-                    "gender": self.logged_in_user.get("gender"),
-                }
+                "user_id": user["user_id"],
+                "username": user["username"],
+                "email": user["email"],
+                "full_name": user["full_name"],
+                "gender": user["gender"],
             }
         else:
             return {"success": False, "error": "No user is currently logged in."}
@@ -78,6 +102,7 @@ class UserManager:
     def logout_user(self):
         if self.logged_in_user:
             self.logged_in_user = None
+            self.settings.remove("user")  # Bellekten kullanıcı bilgisini siliyoruz
             return {"success": True, "message": "User logged out successfully."}
         else:
             return {"success": False, "error": "No user is currently logged in."}

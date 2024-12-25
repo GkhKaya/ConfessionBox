@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication
-from Views.OpenConfessionView.OpenConfessionView import OpenConfessionView
 from Views.AuthView.AuthView import AuthView
+from Views.HomeView.HomeView import HomeView
+
 
 if __name__ == "__main__":
     import sys

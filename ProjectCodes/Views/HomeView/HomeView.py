@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QStackedWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QStackedWidget, QDialog, QLineEdit, QLabel, QFormLayout
 from PyQt5.QtCore import Qt
-from Views.OpenConfessionView.OpenConfessionView import OpenConfessionView
+from Views.AddConfessionDialog.AddConfessionDialog import AddConfessionDialog
 
 class CloseConfessionsView(QWidget):
     def __init__(self):
@@ -11,6 +11,16 @@ class CloseConfessionsView(QWidget):
         self.setStyleSheet("background-color: #3C3C3C;")
         # Add content to the Close Confessions view here
 
+class OpenConfessionsView(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
+
+    def init_ui(self):
+        self.setStyleSheet("background-color: #3C3C3C;")
+        # Add content to the Close Confessions view here
+
+
 class ProfileView(QWidget):
     def __init__(self):
         super().__init__()
@@ -19,6 +29,33 @@ class ProfileView(QWidget):
     def init_ui(self):
         self.setStyleSheet("background-color: #4C4C4C;")
         # Add content to the Profile view here
+
+class OpenConfessionDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
+
+    def init_ui(self):
+        self.setWindowTitle("Itiraf Ekle")
+        self.setStyleSheet("background-color: #2C2C2C;")
+        self.setFixedSize(300, 200)
+
+        layout = QFormLayout(self)
+
+        self.confession_input = QLineEdit(self)
+        self.confession_input.setPlaceholderText("İtirafınızı buraya yazın...")
+
+        submit_button = QPushButton("Gönder", self)
+        submit_button.clicked.connect(self.submit_confession)
+
+        layout.addRow(QLabel("Yeni Itiraf"), self.confession_input)
+        layout.addRow(submit_button)
+
+    def submit_confession(self):
+        confession = self.confession_input.text()
+        if confession:
+            print(f"Yeni itiraf: {confession}")
+            self.accept()  # Dialogu kapat
 
 class HomeView(QWidget):
     def __init__(self):
@@ -41,7 +78,7 @@ class HomeView(QWidget):
         left_layout.setAlignment(Qt.AlignTop)
 
         self.buttons = []
-        button_texts = ["Open Confessions", "Close Confessions", "Profile"]
+        button_texts = ["Open Confessions", "Close Confessions", "Profile", "Itiraf Ekle"]
 
         for text in button_texts:
             button = QPushButton(text, left_panel)
@@ -54,7 +91,7 @@ class HomeView(QWidget):
 
         # Stacked Widget for content views
         self.stacked_widget = QStackedWidget(self)
-        self.confessions_view = OpenConfessionView()
+        self.confessions_view = OpenConfessionsView()
         self.close_confessions_view = CloseConfessionsView()
         self.profile_view = ProfileView()
 
@@ -71,20 +108,28 @@ class HomeView(QWidget):
         clicked_button = self.sender()
         button_index = self.buttons.index(clicked_button)
 
-        # Change the content shown in stacked widget based on the button index
-        if button_index == 0:
-            self.stacked_widget.setCurrentWidget(self.confessions_view)
-        elif button_index == 1:
-            self.stacked_widget.setCurrentWidget(self.close_confessions_view)
-        elif button_index == 2:
-            self.stacked_widget.setCurrentWidget(self.profile_view)
+        # If the "Itiraf Ekle" button is clicked, open the confession dialog
+        if button_index == 3:  # "Itiraf Ekle"
+            self.open_confession_dialog()
+        else:
+            # Change the content shown in stacked widget based on the button index
+            if button_index == 0:
+                self.stacked_widget.setCurrentWidget(self.confessions_view)
+            elif button_index == 1:
+                self.stacked_widget.setCurrentWidget(self.close_confessions_view)
+            elif button_index == 2:
+                self.stacked_widget.setCurrentWidget(self.profile_view)
 
-        # Update button styles
-        for button in self.buttons:
-            if button == clicked_button:
-                button.setStyleSheet(self.active_button_style())
-            else:
-                button.setStyleSheet(self.default_button_style())
+            # Update button styles
+            for button in self.buttons:
+                if button == clicked_button:
+                    button.setStyleSheet(self.active_button_style())
+                else:
+                    button.setStyleSheet(self.default_button_style())
+
+    def open_confession_dialog(self):
+        dialog = AddConfessionDialog()
+        dialog.exec_()
 
     @staticmethod
     def default_button_style():

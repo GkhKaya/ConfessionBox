@@ -52,9 +52,9 @@ class RegisterView(QWidget):
         title_label.setAlignment(Qt.AlignCenter)
 
         # Labels for input fields
-        username_label = QLabel("Username")
-        password_label = QLabel("Password")
-        gender_label = QLabel("Gender")
+        username_label = QLabel("Kullanıcı Adı")
+        password_label = QLabel("Şifre")
+        gender_label = QLabel("Cinsiyet")
 
         # Input fields for user data
         self.username_input = QLineEdit()
@@ -63,7 +63,7 @@ class RegisterView(QWidget):
 
         # Gender selection dropdown
         self.gender_combo = QComboBox()
-        self.gender_combo.addItems(["Prefer not to say", "Male", "Female", "Other"])
+        self.gender_combo.addItems(["Söylemeyi tercih etmiyorum", "Erkek", "Kız", "Diğer"])
 
         # Registration button with custom styling
         register_button = ButtonWithText(

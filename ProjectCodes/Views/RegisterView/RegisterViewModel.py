@@ -31,7 +31,7 @@ class RegisterViewModel:
             return {"success": False, "error": ValidateError.MUST_CONTAIN_SPECIAL_CHAR.value}
 
         try:
-            result = self.user_manager.register_user(username=username, password=password, email=email, full_name=gender)
+            result = self.user_manager.register_user(username=username, password=password, email=email, gender=gender)
 
             # Geri dönen değeri yazdır
             print(f"Register işlemi sonucu: {result}")

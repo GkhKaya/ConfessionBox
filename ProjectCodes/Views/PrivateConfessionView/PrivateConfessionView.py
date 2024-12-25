@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QScrollArea
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QScrollArea, QLabel, QHBoxLayout
 from PyQt5.QtCore import Qt
 from utils.widgets.ConfessionCard import LoremIpsumCard
 from Views.PrivateConfessionView.PrivateConfessionViewModel import PrivateConfessionViewModel
@@ -12,6 +12,16 @@ class PrivateConfessionView(QWidget):
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(20, 20, 20, 20)
         main_layout.setSpacing(15)
+
+        # Title layout
+        title_layout = QHBoxLayout()
+        title_label = QLabel("Kapalı İtiraflar")
+        title_label.setAlignment(Qt.AlignCenter)
+        title_label.setStyleSheet("font-size: 24px; font-weight: bold; color: orange; background: transparent;")
+        title_layout.addWidget(title_label)
+        
+        # Add the title layout to the main layout
+        main_layout.addLayout(title_layout)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)

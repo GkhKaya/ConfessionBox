@@ -3,6 +3,7 @@ from PyQt5.QtCore import Qt
 from Views.AddConfessionDialog.AddConfessionDialog import AddConfessionDialog
 from Views.PrivateConfessionView.PrivateConfessionView import PrivateConfessionView
 from Views.PublicConfessionView.PublicConfessionView import PublicConfessionView
+from Views.ProfileView.ProfileView import ProfileView
 
 
 class CloseConfessionsView(QWidget):
@@ -14,51 +15,9 @@ class CloseConfessionsView(QWidget):
         self.setStyleSheet("background-color: #3C3C3C;")
         # Add content to the Close Confessions view here
 
-class OpenConfessionsView(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        self.setStyleSheet("background-color: #3C3C3C;")
-        # Add content to the Close Confessions view here
 
 
-class ProfileView(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
 
-    def init_ui(self):
-        self.setStyleSheet("background-color: #4C4C4C;")
-        # Add content to the Profile view here
-
-class OpenConfessionDialog(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        self.setWindowTitle("Itiraf Ekle")
-        self.setStyleSheet("background-color: #2C2C2C;")
-        self.setFixedSize(300, 200)
-
-        layout = QFormLayout(self)
-
-        self.confession_input = QLineEdit(self)
-        self.confession_input.setPlaceholderText("İtirafınızı buraya yazın...")
-
-        submit_button = QPushButton("Gönder", self)
-        submit_button.clicked.connect(self.submit_confession)
-
-        layout.addRow(QLabel("Yeni Itiraf"), self.confession_input)
-        layout.addRow(submit_button)
-
-    def submit_confession(self):
-        confession = self.confession_input.text()
-        if confession:
-            print(f"Yeni itiraf: {confession}")
-            self.accept()  # Dialogu kapat
 
 class HomeView(QWidget):
     def __init__(self):
@@ -81,7 +40,7 @@ class HomeView(QWidget):
         left_layout.setAlignment(Qt.AlignTop)
 
         self.buttons = []
-        button_texts = ["Open Confessions", "Close Confessions", "Profile", "Itiraf Ekle"]
+        button_texts = ["Açık İtiraflar", "Kapalı İtiraflar", "Profil", "Itiraf Ekle"]
 
         for text in button_texts:
             button = QPushButton(text, left_panel)

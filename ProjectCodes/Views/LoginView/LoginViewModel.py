@@ -1,4 +1,4 @@
-from Core.UserManager.UserManager import UserManager
+from Core.Manager.UserManager import UserManager
 from utils.enum.ProjectError import DatabaseError
 from utils.enum.ProjectError import ValidateError
 

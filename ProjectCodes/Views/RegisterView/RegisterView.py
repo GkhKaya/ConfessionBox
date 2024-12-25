@@ -125,6 +125,8 @@ class RegisterView(QWidget):
         # Display success or error message
         if result["success"]:
             QMessageBox.information(self, "Success", result["message"])
-            self.go_back()  # Navigate back to the authentication view
+            self.go_back()
         else:
+            # Konsola hata yazdır
+            print(f"Hata detayı: {result['error']}")
             QMessageBox.warning(self, "Error", result["error"])

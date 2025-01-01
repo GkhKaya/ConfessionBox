@@ -46,7 +46,7 @@ class RegisterView(QWidget):
         back_button_layout.setAlignment(Qt.AlignLeft)
 
         # Title label for the registration view
-        title_label = QLabel("Register")
+        title_label = QLabel("Kayıt Ol")
         title_label.setFont(QFont("Arial", 24, QFont.Bold))
         title_label.setStyleSheet("color: #F8F8F8;")  # White text color
         title_label.setAlignment(Qt.AlignCenter)
@@ -67,7 +67,7 @@ class RegisterView(QWidget):
 
         # Registration button with custom styling
         register_button = ButtonWithText(
-            text="Register",
+            text="Kayıt Ol",
             style="""
                 QPushButton {
                     background-color: #FF8C00;

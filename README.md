@@ -5,13 +5,13 @@ It is a project on visual programming lecture.
 # DB Scheme
 
 
-| **Users** | **Confessions** | **Confessions_Categorye** |
-|-----------------|-----------------|-----------------|
-| id             | id             | id             |
-| fullname       | user_id        | text           |
-| email          | category_id    |                |
-| created_date   | text           |                |
-| gender         | created_date   |                |
+| **Users** | **Confessions** | 
+|-----------------|-----------------|
+| id             | id             | 
+| fullname       | user_id        | 
+| email          | category_id    |  
+| created_date   | text           |                
+| gender         | created_date   |                
 
 # UI/UX
 

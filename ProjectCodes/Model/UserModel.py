@@ -12,10 +12,11 @@ class UserModel:
         full_name (str): The full name of the user. Optional.
         password (str): The hashed password of the user.
         gender (str): The gender of the user. Optional.
+        hobbies_id (list): A list of hobby IDs associated with the user.
         created_at (datetime): The timestamp when the user was created.
     """
-    def __init__(self, username: str, password: str, email: str = None, full_name: str = None, gender: str = None):
-
+    def __init__(self, username: str, password: str, email: str = None, 
+                 full_name: str = None, gender: str = None):
         """
         Initializes the UserModel with the provided attributes and hashes the password.
 
@@ -26,12 +27,12 @@ class UserModel:
             full_name (str, optional): The full name of the user. Defaults to None.
             gender (str, optional): The gender of the user. Defaults to None.
         """
-         
         self.username = username
         self.email = email
         self.full_name = full_name
         self.password = self.hash_password(password)
-        self.gender = gender  
+        self.gender = gender
+        self.hobbies_id = []  # Always initialize as an empty list
         self.created_at = datetime.utcnow()
 
     @staticmethod
@@ -60,15 +61,16 @@ class UserModel:
                       "full_name": "John Doe",
                       "password": "<hashed_password>",
                       "gender": "Male",
+                      "hobbies_id": [],
                       "created_at": "<timestamp>"
                   }
         """
-        
         return {
             "username": self.username,
             "email": self.email,
             "full_name": self.full_name,
             "password": self.password,
-            "gender": self.gender,  
+            "gender": self.gender,
+            "hobbies_id": self.hobbies_id,
             "created_at": self.created_at
         }
